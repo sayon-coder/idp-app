@@ -58,30 +58,35 @@ Developer → GitHub Push → GitHub Actions → Docker Build → GHCR
 
 **idp-app** (this repo — application code + pipeline)
 
+```
 idp-app/
 ├── .github/
-│ └── workflows/
-│ └── ci-cd.yml
+│   └── workflows/
+│       └── ci-cd.yml
 ├── app/
-│ └── backend/
-│ ├── server.js
-│ └── package.json
+│   └── backend/
+│       ├── server.js
+│       └── package.json
 ├── terraform/
-│ ├── main.tf
-│ ├── variables.tf
-│ ├── outputs.tf
-│ └── versions.tf
+│   ├── main.tf
+│   ├── variables.tf
+│   ├── outputs.tf
+│   └── versions.tf
 └── Dockerfile
+```
 
 **idp-gitops** (separate repo — ArgoCD watches this)
+
+```
 idp-gitops/
 └── charts/
-└── idp-app/
-├── Chart.yaml
-├── values.yaml
-└── templates/
-├── deployment.yaml
-└── service.yaml
+    └── idp-app/
+        ├── Chart.yaml
+        ├── values.yaml
+        └── templates/
+            ├── deployment.yaml
+            └── service.yaml
+```
 
 ## Setup Instructions
 
