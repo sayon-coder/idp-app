@@ -1,4 +1,4 @@
-# 🚀 Enterprise Internal Developer Platform (IDP) with GitOps
+# Enterprise Internal Developer Platform (IDP) with GitOps
 
 ![CI/CD](https://github.com/sayon-coder/idp-app/actions/workflows/ci-cd.yml/badge.svg)
 ![Kubernetes](https://img.shields.io/badge/Kubernetes-1.32-326CE5?logo=kubernetes&logoColor=white)
@@ -13,7 +13,7 @@ This project implements the Spotify/Airbnb-style platform engineering pattern wh
 
 ---
 
-## 🏗️ Architecture
+## Architecture
 
 \`\`\`
 Developer → GitHub Push → GitHub Actions → Docker Build → GHCR
@@ -26,7 +26,7 @@ Developer → GitHub Push → GitHub Actions → Docker Build → GHCR
 
 ---
 
-## ⚡ How It Works
+## How It Works
 
 1. **Developer pushes code** to \`idp-app\` GitHub repo
 2. **GitHub Actions** automatically:
@@ -39,7 +39,7 @@ Developer → GitHub Push → GitHub Actions → Docker Build → GHCR
 
 ---
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 | Component | Technology |
 |-----------|-----------|
@@ -54,26 +54,41 @@ Developer → GitHub Push → GitHub Actions → Docker Build → GHCR
 
 ---
 
-## 📁 Repository Structure
+## Repository Structure
 
+**idp-app** (this repo — application code + pipeline)
 \`\`\`
-idp-app/                          idp-gitops/
-├── .github/workflows/            └── charts/
-│   └── ci-cd.yml                     └── idp-app/
-├── app/backend/                          ├── Chart.yaml
-│   ├── server.js                         ├── values.yaml
-│   └── package.json                      └── templates/
-├── terraform/                                ├── deployment.yaml
-│   ├── main.tf                               └── service.yaml
+idp-app/
+├── .github/
+│   └── workflows/
+│       └── ci-cd.yml
+├── app/
+│   └── backend/
+│       ├── server.js
+│       └── package.json
+├── terraform/
+│   ├── main.tf
 │   ├── variables.tf
 │   ├── outputs.tf
 │   └── versions.tf
 └── Dockerfile
 \`\`\`
 
+**idp-gitops** (separate repo — ArgoCD watches this)
+\`\`\`
+idp-gitops/
+└── charts/
+    └── idp-app/
+        ├── Chart.yaml
+        ├── values.yaml
+        └── templates/
+            ├── deployment.yaml
+            └── service.yaml
+\`\`\`
+
 ---
 
-## 🚀 Setup Instructions
+## Setup Instructions
 
 ### Prerequisites
 \`\`\`bash
@@ -121,34 +136,6 @@ kubectl apply -f idp-gitops/argocd-app.yaml
 git commit --allow-empty -m "trigger: initial deploy"
 git push origin main
 \`\`\`
-
----
-
-## 🎬 Demo
-
-### Self-Healing Demo
-\`\`\`bash
-kubectl delete pod <pod-name>
-kubectl get pods -w
-# New pod appears within 40 seconds automatically
-\`\`\`
-
----
-
-## 💰 Cost Management
-\`\`\`bash
-# Destroy when not in use
-cd terraform && terraform destroy -auto-approve
-
-# Recreate when needed (15 minutes)
-terraform apply -auto-approve
-\`\`\`
-
----
-
-## 🎤 Interview Story
-
-> *"I built an Internal Developer Platform where developers just push code to GitHub. GitHub Actions builds the Docker image, pushes to GHCR, and updates the GitOps repo. ArgoCD deploys to EKS within 2 minutes — zero manual steps. If anyone manually changes the cluster, ArgoCD reverts it. I demonstrated self-healing by deleting a pod and watching it recreate in 40 seconds."*
 
 ---
 
